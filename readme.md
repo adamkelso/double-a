@@ -11,3 +11,5 @@ There's very few components right now, but as more and more small pieces of apps
  1. DoubleA components should be small, usually single piece, components that can be used in basically any application and solve a single problem very well.
  2. Components should include unit tests and pass them. (PHPUnit preferred but PhpSpec, Behat, or any other popular testing framework is fine.)
  3. Documentation should be included that can be added to the wiki. Nobody is expected to be a fantastic technical writer, but without any explanation of situations where the component could be useful or save time, even the most amazing component won't get traction.
+ 
+[Go to the wiki](https://github.com/adamkelso/DoubleA/wiki)
