@@ -1,4 +1,4 @@
-<?php namespace adamkelso\DoubleA;
+<?php namespace AdamKelso\DoubleA;
 
 trait Enumerable {
     public static function all()
