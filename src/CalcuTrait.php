@@ -1,7 +1,8 @@
 <?php namespace adamkelso\DoubleA;
 
 trait CalcuTrait {
-    private $calculated = array();
+    private $calculated = array(),
+            $reflection;
     // Assumes there is a private $settable array on the class.
 
     public function __set($name, $value)
@@ -11,13 +12,11 @@ trait CalcuTrait {
 
             // We empty the calculated values because someone changed
             // the input values. So, calculations need to be remade.
-            foreach ($this->calculated as $k => $v) {
-                unset($this->calculated[$k]);
-            }
+            $this->calculated = [];
         }elseif(property_exists($this, 'catch')) {
             $this->catch[$name] = $value;
         }else{
-            throw new \Exception('Tried to set unknown property on '.get_class($this).' class: '.$name.' with value '.$value);
+            throw new \Exception('Tried to set unknown property on '.__CLASS__.' class: '.$name.' with value '.$value);
         }
     }
 
