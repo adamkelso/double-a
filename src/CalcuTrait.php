@@ -1,18 +1,18 @@
 <?php namespace adamkelso\DoubleA;
 
 trait CalcuTrait {
-    private $calculated = array(),
+    private $_calculated = array(),
             $reflection;
     // Assumes there is a private $settable array on the class.
 
     public function __set($name, $value)
     {
-        if(array_key_exists($name, $this->settable)) {
-            $this->settable[$name] = trim($value);
+        if(array_key_exists($name, $this->_settable)) {
+            $this->_settable[$name] = trim($value);
 
             // We empty the calculated values because someone changed
             // the input values. So, calculations need to be remade.
-            $this->calculated = [];
+            $this->_calculated = [];
         }elseif(property_exists($this, 'catch')) {
             $this->catch[$name] = $value;
         }else{
@@ -26,14 +26,14 @@ trait CalcuTrait {
             $this->reflection = new \ReflectionClass($this);
         }
 
-        if(array_key_exists($name, $this->calculated))
+        if(array_key_exists($name, $this->_calculated))
         {
-            return $this->calculated[$name];
+            return $this->_calculated[$name];
         }
 
-        else if(array_key_exists($name, $this->settable) && $this->settable[$name] !== null)
+        else if(array_key_exists($name, $this->_settable) && $this->_settable[$name] !== null)
         {
-            return $this->settable[$name];
+            return $this->_settable[$name];
         }
 
         else if(method_exists($this, $name))
@@ -59,14 +59,14 @@ trait CalcuTrait {
         		throw new \Exception('The following properties need to be set on the '.__CLASS__.' object before the method '.$name.' can be called: '.implode(', ', $missing).'. ');
         	}
 
-            $this->calculated[$name] = call_user_func_array([$this, $name], $args);
+            $this->_calculated[$name] = call_user_func_array([$this, $name], $args);
 
             if(method_exists($this, 'AfterCalc'))
             {
-                $this->calculated[$name] = $this->AfterCalc($this->calculated[$name]);
+                $this->_calculated[$name] = $this->AfterCalc($this->_calculated[$name]);
             }
 
-            return $this->calculated[$name];
+            return $this->_calculated[$name];
         }
 
         else{
@@ -77,8 +77,8 @@ trait CalcuTrait {
     // Useful to check from outside the class if a property has been set or calculated already.
     public function __isset($name)
     {
-        return (array_key_exists($name, $this->calculated)
-            || (array_key_exists($name, $this->settable) && $this->settable[$name] != null)
+        return (array_key_exists($name, $this->_calculated)
+            || (array_key_exists($name, $this->_settable) && $this->_settable[$name] != null)
         );
     }
 
@@ -102,14 +102,14 @@ trait CalcuTrait {
 
         foreach($args as $arg)
         {
-            if(array_key_exists($arg, $this->settable) && $this->settable[$arg] === null)
+            if(array_key_exists($arg, $this->_settable) && $this->_settable[$arg] === null)
             {
                 array_push($missing, $arg);
             }
 
-            else if(!array_key_exists($arg, $this->calculated) && method_exists($this, $arg))
+            else if(!array_key_exists($arg, $this->_calculated) && method_exists($this, $arg))
             {
-                $this->calculated[$arg] = $this->$arg();
+                $this->_calculated[$arg] = $this->$arg();
             }
         }
 

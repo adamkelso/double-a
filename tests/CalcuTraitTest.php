@@ -8,13 +8,13 @@ use PHPUnit_Framework_TestCase;
 class Object1 {
     use CalcuTrait;
 
-    private $settable = [
+    private $_settable = [
         'Year_Built' => null,
         'Square_Footage' => null,
         'Total_Value' => null
     ];
 
-    public $BeforeCalc, $AfterCalc, $count = 0;
+    public $AfterCalc, $count = 0;
 
     private function No_Arguments()
     {
@@ -39,19 +39,19 @@ class Object1 {
 
     public function getCalculated()
     {
-        return $this->calculated;
+        return $this->_calculated;
     }
 
     public function getSettable()
     {
-        return $this->settable;
+        return $this->_settable;
     }
 }
 
 class Object2 {
     use CalcuTrait;
 
-    private $settable = [
+    private $_settable = [
         'Year_Built' => null,
         'Square_Footage' => null,
         'Municiple_Tax' => null,
@@ -80,7 +80,7 @@ class Object2 {
 
     public function getCalculated()
     {
-        return $this->calculated;
+        return $this->_calculated;
     }
 }
 
