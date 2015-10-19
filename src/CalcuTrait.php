@@ -8,11 +8,13 @@ trait CalcuTrait {
     public function __set($name, $value)
     {
         if(array_key_exists($name, $this->_settable)) {
-            $this->_settable[$name] = trim($value);
+            $this->_settable[$name] = $value;
 
             // We empty the calculated values because someone changed
             // the input values. So, calculations need to be remade.
-            $this->_calculated = [];
+            if(!property_exists($this, 'leaveCacheOnSet') || $this->leaveCacheOnSet == false) {
+                $this->_calculated = [];
+            }
         }elseif(property_exists($this, 'catch')) {
             $this->catch[$name] = $value;
         }else{

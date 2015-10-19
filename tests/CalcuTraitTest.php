@@ -14,7 +14,7 @@ class Object1 {
         'Total_Value' => null
     ];
 
-    public $AfterCalc, $count = 0;
+    public $count = 0, $leaveCacheOnSet = false;
 
     private function No_Arguments()
     {
@@ -81,6 +81,27 @@ class Object2 {
     public function getCalculated()
     {
         return $this->_calculated;
+    }
+}
+
+class AfterCalcClass {
+    use CalcuTrait;
+
+    public $leaveCacheOnSet = false;
+
+    private $_settable = [
+        'Square_Footage' => null,
+        'Total_Value' => null
+    ];
+
+    private function AfterCalc($value)
+    {
+        return Round($value, 2);
+    }
+
+    private function Value_Per_SqFt($Total_Value, $Square_Footage)
+    {
+        return $Total_Value / $Square_Footage;
     }
 }
 
@@ -191,6 +212,26 @@ class CalcuTraitTest extends PHPUnit_Framework_TestCase {
         $this->assertEmpty($obj->getCalculated());
     }
 
+    public function testLeaveCacheIfAttributeExists()
+    {
+        $obj = new Object1();
+        $obj->Year_Built = 1995;
+
+        $y = $obj->Age;
+        $this->assertTrue(isset($obj->Age));
+
+        $obj->Total_Value = 120000;
+        $this->assertFalse(isset($obj->Age));
+
+        // Set the caching to not delete.
+        $obj->leaveCacheOnSet = true;
+        $y = $obj->Age;
+        $this->assertTrue(isset($obj->Age));
+
+        $obj->Square_Footage = 1800;
+        $this->assertTrue(isset($obj->Age));
+    }
+
     public function testCalculatedValuesCachedAndOnlyRunOnce()
     {
         $obj = new Object1();
@@ -252,5 +293,17 @@ class CalcuTraitTest extends PHPUnit_Framework_TestCase {
 
         $this->assertArrayHasKey('Municiple_Value', $obj2->getCalculated());
         $this->assertArrayNotHasKey('Municiple_Value', $obj1->getCalculated());
+    }
+
+    public function testAfterCalcRunsAndTransforms()
+    {
+        $obj = new AfterCalcClass();
+
+        $obj->Square_Footage = 32;
+        $obj->Total_Value = 7;
+
+        $this->assertEquals($obj->Value_Per_SqFt, 0.22);
+        // and test cache
+        $this->assertEquals($obj->Value_Per_SqFt, 0.22);
     }
 }
