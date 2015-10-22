@@ -3,6 +3,8 @@
   "description": "Small pieces of code to help power your app.",
   "license":"MIT",
   "version":"1.0.0",
+  "type":"library",
+  "keywords":["DoubleA", "CalcuTrait", "Enumerable", "trait", "power"],
   "authors":[
     {
       "name": "Adam Kelso",
