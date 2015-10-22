@@ -2,10 +2,12 @@
   "name": "adamkelso/double-a",
   "description": "Small pieces of code to help power your app.",
   "license":"MIT",
+  "version":"1.0.0",
   "authors":[
     {
       "name": "Adam Kelso",
-      "email": "kelso.adam@gmail.com"
+      "email": "kelso.adam@gmail.com",
+      "role": "Developer"
     }
   ],
   "require": {
