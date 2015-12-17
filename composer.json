@@ -2,10 +2,11 @@
   "name": "adamkelso/double-a",
   "description": "Small pieces of code to help power your app.",
   "license":"MIT",
-  "version":"1.0.0",
+  "version":1.0.0,
   "type":"library",
   "keywords":["DoubleA", "CalcuTrait", "Enumerable", "trait", "power"],
   "minimum-stability":"dev",
+  "prefer-stable":true,
   "authors":[
     {
       "name": "Adam Kelso",
