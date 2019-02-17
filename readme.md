@@ -1,8 +1,8 @@
-#DoubleA#
+# DoubleA
 
 When building apps of any kind, there are several times when small conventions end up saving you large amounts of time. Often these conventions, whether they be patterns or just convenient helper methods, can be used in lots of different apps and be just as helpful for every project they are used in. DoubleA is just that.
 
-##Installation##
+## Installation
 
 To install via composer, run the following command in the terminal:
 
@@ -10,7 +10,7 @@ To install via composer, run the following command in the terminal:
 composer require adamkelso/double-a
 ```
 
-##Clarification##
+## Clarification
 
 In the same way that you can't build an electronic device using only double a batteries, you can't build an app directly from these components. However, the small convenience components should help out in nearly any app and contain no dependencies.
 
